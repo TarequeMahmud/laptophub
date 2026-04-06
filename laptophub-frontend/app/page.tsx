@@ -3,8 +3,18 @@
 import { Laptop, ShoppingCart } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useCartStore } from '@/store/cartStore';
+import { useTheme } from '@/components/ThemeProvider';
 import { Product } from '@/types';
 import clsx from 'clsx';
+import CategoriesSection from '@/components/CategoriesSection';
+import TopBrandsSection from '@/components/TopBrandsSection';
+import DealsSection from '@/components/DealsSection';
+import NewArrivalsSection from '@/components/NewArrivalsSection';
+import BestSellersSection from '@/components/BestSellersSection';
+import AccessoriesSection from '@/components/AccessoriesSection';
+import CustomerReviewsSection from '@/components/CustomerReviewsSection';
+import NewsletterSignup from '@/components/NewsletterSignup';
+import Footer from '@/components/Footer';
 
 // Mock product data
 const PRODUCTS: Product[] = [
@@ -39,6 +49,7 @@ const PRODUCTS: Product[] = [
 ];
 
 export default function Home() {
+  const { theme } = useTheme();
   const addItem = useCartStore((state) => state.addItem);
 
   const handleAddToCart = (product: Product) => {
@@ -49,7 +60,10 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100">
+    <div className={clsx(
+      "min-h-screen",
+      theme === 'dark' ? 'bg-slate-900' : 'bg-linear-to-b from-slate-50 to-slate-100'
+    )}>
       {/* Hero Section */}
       <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto text-center">
@@ -66,79 +80,32 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Products Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-4xl font-bold text-slate-900 mb-12 text-center">Featured Laptops</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {PRODUCTS.map((product) => (
-              <div
-                key={product.id}
-                className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden"
-              >
-                {/* Product Image */}
-                <div className="bg-gradient-to-br from-blue-100 to-blue-50 h-48 flex items-center justify-center text-6xl">
-                  {product.image}
-                </div>
+      {/* Categories Section */}
+      <CategoriesSection />
 
-                {/* Product Info */}
-                <div className="p-6">
-                  <h3 className="text-lg font-semibold text-slate-900 mb-2">{product.name}</h3>
-                  <p className="text-sm text-slate-600 mb-4">{product.description}</p>
+      {/* Top Brands Section */}
+      <TopBrandsSection />
 
-                  {/* Price */}
-                  <div className="mb-6">
-                    <span className="text-3xl font-bold text-slate-900">
-                      ${product.price.toLocaleString()}
-                    </span>
-                  </div>
+      {/* Deals Section */}
+      <DealsSection />
 
-                  {/* Add to Cart Button */}
-                  <button
-                    onClick={() => handleAddToCart(product)}
-                    className={clsx(
-                      'w-full flex items-center justify-center gap-2 py-3 px-4 rounded-lg',
-                      'bg-blue-600 hover:bg-blue-700 text-white font-semibold',
-                      'transition duration-200 ease-in-out transform hover:scale-105'
-                    )}
-                  >
-                    <ShoppingCart size={20} />
-                    Add to Cart
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* New Arrivals Section */}
+      <NewArrivalsSection />
 
-      {/* Features Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-4xl font-bold text-slate-900 mb-12 text-center">Why Choose LaptopHub?</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                title: 'Premium Quality',
-                description: 'All laptops are hand-selected for quality and performance',
-              },
-              {
-                title: 'Best Prices',
-                description: 'Competitive pricing with exclusive discounts for members',
-              },
-              {
-                title: 'Fast Shipping',
-                description: 'Free shipping on orders over $500. Delivery in 2-3 days',
-              },
-            ].map((feature, idx) => (
-              <div key={idx} className="text-center">
-                <h3 className="text-xl font-semibold text-slate-900 mb-3">{feature.title}</h3>
-                <p className="text-slate-600">{feature.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Best Sellers Section */}
+      <BestSellersSection />
+
+      {/* Accessories Section */}
+      <AccessoriesSection />
+
+      {/* Customer Reviews Section */}
+      <CustomerReviewsSection />
+
+      {/* Newsletter Signup */}
+      <NewsletterSignup />
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }
