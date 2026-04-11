@@ -1,6 +1,6 @@
 'use client';
 
-import { Laptop } from 'lucide-react';
+import { Laptop, Sparkles } from 'lucide-react';
 import { useTheme } from '@/components/ThemeProvider';
 import { Product } from '@/types';
 import clsx from 'clsx';
@@ -83,17 +83,43 @@ export default function Home() {
     )}>
       {/* Hero Section */}
       <section className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto text-center">
-          <div className="flex justify-center mb-6">
-            <Laptop className="w-16 h-16 text-blue-600" />
+        <div className="max-w-7xl mx-auto">
+          <div className="relative">
+            <div className="absolute inset-y-0 right-0 hidden w-2 rounded-l-full bg-linear-to-b from-sky-500 to-cyan-500 opacity-30 blur-2xl lg:block" />
+            <div className="relative grid gap-8 lg:grid-cols-[1.4fr_0.8fr] items-center">
+              <div>
+                <div className="flex justify-center mb-6 lg:justify-start">
+                  <Laptop className="w-16 h-16 text-blue-600" />
+                </div>
+                <h1 className={clsx(
+                  'text-5xl sm:text-6xl font-bold mb-6',
+                  theme === 'dark' ? 'text-white' : 'text-slate-900'
+                )}>
+                  Welcome to <span className="text-blue-600">LaptopHub</span>
+                </h1>
+                <p className={clsx(
+                  'text-xl max-w-2xl leading-8',
+                  theme === 'dark' ? 'text-slate-300' : 'text-slate-600'
+                )}>
+                  Discover premium laptops for every need. From gaming rigs to professional workstations,
+                  find your perfect laptop today.
+                </p>
+              </div>
+
+              <div className={clsx(
+                'rounded-3xl p-6 shadow-2xl ring-1 ring-white/10',
+                theme === 'dark' ? 'bg-slate-950 text-slate-100' : 'bg-linear-to-r from-sky-600 via-cyan-500 to-slate-900 text-white'
+              )}>
+                <div className="inline-flex items-center gap-3 rounded-full bg-white/10 px-4 py-3 text-sm font-semibold shadow-lg backdrop-blur-sm animate-pulse">
+                  <Sparkles className="h-4 w-4" />
+                  New laptops available!
+                </div>
+                <p className="mt-4 text-sm leading-6 text-slate-100/80">
+                  The latest premium laptops are ready to shop — always curated for performance, design, and value.
+                </p>
+              </div>
+            </div>
           </div>
-          <h1 className="text-5xl sm:text-6xl font-bold text-slate-900 mb-6">
-            Welcome to <span className="text-blue-600">LaptopHub</span>
-          </h1>
-          <p className="text-xl text-slate-600 max-w-2xl mx-auto">
-            Discover premium laptops for every need. From gaming rigs to professional workstations,
-            find your perfect laptop today.
-          </p>
         </div>
       </section>
 

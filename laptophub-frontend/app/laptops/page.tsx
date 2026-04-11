@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
-import { Funnel, Sparkles } from 'lucide-react';
+import { Funnel } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useCartStore } from '@/store/cartStore';
 import { useTheme } from '@/components/ThemeProvider';
@@ -242,48 +242,6 @@ export default function LaptopListingPage() {
                         Laptops
                     </span>
                 </nav>
-
-                <div className={clsx(
-                    'rounded-4xl border p-8 shadow-xl overflow-hidden sm:p-10 relative',
-                    theme === 'dark' ? 'border-slate-800 bg-slate-900' : 'border-slate-200 bg-white'
-                )}>
-                    <div className="absolute inset-y-0 right-0 hidden w-2 rounded-l-full bg-linear-to-b from-sky-500 to-cyan-500 opacity-30 blur-2xl lg:block" />
-                    <div className="relative grid gap-8 lg:grid-cols-[1.4fr_0.8fr] items-center">
-                        <div>
-                            <p className={clsx(
-                                'text-sm font-semibold uppercase tracking-[0.3em] mb-4',
-                                theme === 'dark' ? 'text-sky-400' : 'text-sky-600'
-                            )}>
-                                Premium laptop listing
-                            </p>
-                            <h1 className={clsx(
-                                'text-4xl font-semibold tracking-tight sm:text-5xl',
-                                theme === 'dark' ? 'text-white' : 'text-slate-950'
-                            )}>
-                                Shop the newest laptops for business, gaming, and study.
-                            </h1>
-                            <p className={clsx(
-                                'mt-5 max-w-3xl text-base leading-8',
-                                theme === 'dark' ? 'text-slate-300' : 'text-slate-600'
-                            )}>
-                                Apply filters and sorting to find your ideal laptop fast. Every listing is designed to move with premium brand clarity and useful buying detail.
-                            </p>
-                        </div>
-
-                        <div className={clsx(
-                            'rounded-3xl p-6 shadow-2xl ring-1 ring-white/10',
-                            theme === 'dark' ? 'bg-slate-950 text-slate-100' : 'bg-linear-to-r from-sky-600 via-cyan-500 to-slate-900 text-white'
-                        )}>
-                            <div className="inline-flex items-center gap-3 rounded-full bg-white/10 px-4 py-3 text-sm font-semibold shadow-lg backdrop-blur-sm animate-pulse">
-                                <Sparkles className="h-4 w-4" />
-                                New laptops available!
-                            </div>
-                            <p className="mt-4 text-sm leading-6 text-slate-100/80">
-                                The latest premium laptops are ready to shop — always curated for performance, design, and value.
-                            </p>
-                        </div>
-                    </div>
-                </div>
 
                 <div className="mt-12 grid gap-8 xl:grid-cols-[320px_minmax(0,1fr)]">
                     <aside className={clsx(

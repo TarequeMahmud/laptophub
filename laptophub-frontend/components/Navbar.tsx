@@ -1,6 +1,6 @@
 'use client';
 
-import { ShoppingCart, Search, Tag, Wrench, User, Cpu, Monitor, HardDrive, MemoryStick, CircuitBoard, Sun, Moon } from 'lucide-react';
+import { ShoppingCart, Search, Tag, Wrench, User, Cpu, Monitor, HardDrive, MemoryStick, CircuitBoard, Sun, Moon, Laptop } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useCartStore } from '@/store/cartStore';
@@ -126,6 +126,13 @@ export function Navbar() {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center justify-center h-12">
                         <div className="flex space-x-8">
+                            <Link href="/laptops" className={clsx(
+                                "flex items-center space-x-2 hover:text-blue-600 transition",
+                                theme === 'dark' ? 'text-slate-300' : 'text-slate-700'
+                            )}>
+                                <Laptop size={16} />
+                                <span>Laptops</span>
+                            </Link>
                             <Link href="#" className={clsx(
                                 "flex items-center space-x-2 hover:text-blue-600 transition",
                                 theme === 'dark' ? 'text-slate-300' : 'text-slate-700'
