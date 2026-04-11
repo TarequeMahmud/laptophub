@@ -1,8 +1,6 @@
 'use client';
 
-import { Laptop, ShoppingCart } from 'lucide-react';
-import toast from 'react-hot-toast';
-import { useCartStore } from '@/store/cartStore';
+import { Laptop } from 'lucide-react';
 import { useTheme } from '@/components/ThemeProvider';
 import { Product } from '@/types';
 import clsx from 'clsx';
@@ -77,14 +75,6 @@ const PRODUCTS: Product[] = [
 
 export default function Home() {
   const { theme } = useTheme();
-  const addItem = useCartStore((state) => state.addItem);
-
-  const handleAddToCart = (product: Product) => {
-    addItem(product, 1);
-    toast.success(`${product.name} added to cart!`, {
-      icon: '🛒',
-    });
-  };
 
   return (
     <div className={clsx(
@@ -113,7 +103,7 @@ export default function Home() {
         subtitle="Browse our curated laptop collection with business-ready performance, sleek design, and premium support."
         products={PRODUCTS}
         categoryLabel="Laptop Collection"
-        viewAllHref="#"
+        viewAllHref="/laptops"
         viewAllLabel="Explore all laptops"
       />
 

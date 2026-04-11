@@ -7,6 +7,7 @@ export interface Product {
     imageAlt?: string;
     description?: string;
     category?: string;
+    releaseDate?: string;
     badge?: string;
     rating?: number;
     reviews?: number;
