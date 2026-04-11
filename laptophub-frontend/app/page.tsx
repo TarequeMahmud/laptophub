@@ -15,6 +15,7 @@ import AccessoriesSection from '@/components/AccessoriesSection';
 import CustomerReviewsSection from '@/components/CustomerReviewsSection';
 import NewsletterSignup from '@/components/NewsletterSignup';
 import Footer from '@/components/Footer';
+import ProductShowcase from '@/components/ProductShowcase';
 
 // Mock product data
 const PRODUCTS: Product[] = [
@@ -22,29 +23,55 @@ const PRODUCTS: Product[] = [
     id: '1',
     name: 'MacBook Pro 16"',
     price: 2499,
+    originalPrice: 2799,
+    rating: 4.9,
+    reviews: 1247,
+    badge: 'Best Seller',
+    availability: 'In Stock',
+    tags: ['M3', '16-inch', 'Liquid Retina'],
     description: 'Powerful laptop for professionals',
     image: '💻',
+    href: '#',
   },
   {
     id: '2',
     name: 'Dell XPS 13',
     price: 999,
+    originalPrice: 1149,
+    rating: 4.8,
+    reviews: 892,
+    badge: 'Sale',
+    availability: 'Limited Stock',
+    tags: ['12th Gen Intel', 'Touchscreen'],
     description: 'Ultrabook with amazing display',
     image: '🖥️',
+    href: '#',
   },
   {
     id: '3',
-    name: 'ASUS ROG Gaming',
+    name: 'ASUS ROG Strix G16',
     price: 1899,
+    rating: 4.7,
+    reviews: 654,
+    availability: 'In Stock',
+    tags: ['RTX 4070', '144Hz', 'Gaming'],
     description: 'High-performance gaming laptop',
     image: '🎮',
+    href: '#',
   },
   {
     id: '4',
-    name: 'Lenovo ThinkPad',
+    name: 'Lenovo ThinkPad X1',
     price: 1299,
+    originalPrice: 1499,
+    rating: 4.6,
+    reviews: 423,
+    badge: 'Business',
+    availability: 'In Stock',
+    tags: ['Business', 'Lightweight'],
     description: 'Business laptop with reliability',
     image: '📱',
+    href: '#',
   },
 ];
 
@@ -79,6 +106,16 @@ export default function Home() {
           </p>
         </div>
       </section>
+
+      {/* Laptop Category Showcase */}
+      <ProductShowcase
+        title="Premium Laptops for Every Need"
+        subtitle="Browse our curated laptop collection with business-ready performance, sleek design, and premium support."
+        products={PRODUCTS}
+        categoryLabel="Laptop Collection"
+        viewAllHref="#"
+        viewAllLabel="Explore all laptops"
+      />
 
       {/* Categories Section */}
       <CategoriesSection />

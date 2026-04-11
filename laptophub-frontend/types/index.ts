@@ -4,7 +4,16 @@ export interface Product {
     name: string;
     price: number;
     image?: string;
+    imageAlt?: string;
     description?: string;
+    category?: string;
+    badge?: string;
+    rating?: number;
+    reviews?: number;
+    originalPrice?: number;
+    availability?: 'In Stock' | 'Limited Stock' | 'Out of Stock';
+    tags?: string[];
+    href?: string;
 }
 
 // Cart item with quantity
