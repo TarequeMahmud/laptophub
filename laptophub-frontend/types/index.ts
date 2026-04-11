@@ -14,6 +14,8 @@ export interface Product {
     originalPrice?: number;
     availability?: 'In Stock' | 'Limited Stock' | 'Out of Stock';
     tags?: string[];
+    specs?: Record<string, string>;
+    features?: string[];
     href?: string;
 }
 

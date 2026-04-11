@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { ShoppingCart, Star } from 'lucide-react';
 import { useTheme } from '@/components/ThemeProvider';
 import clsx from 'clsx';
@@ -27,7 +28,11 @@ export default function ProductCard({
     const primaryAction = onPrimaryAction ? (
         <button
             type="button"
-            onClick={onPrimaryAction}
+            onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onPrimaryAction();
+            }}
             className={clsx(
                 'inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition duration-200',
                 theme === 'dark'
@@ -38,7 +43,7 @@ export default function ProductCard({
             <ShoppingCart className="w-4 h-4" />
             {primaryActionLabel}
         </button>
-    ) : secondaryActionHref ? (
+    ) : secondaryActionHref && !product.href ? (
         <a
             href={secondaryActionHref}
             className={clsx(
@@ -50,6 +55,15 @@ export default function ProductCard({
         >
             {primaryActionLabel}
         </a>
+    ) : product.href ? (
+        <span className={clsx(
+            'inline-flex items-center justify-center rounded-full border border-slate-300 px-5 py-3 text-sm font-semibold',
+            theme === 'dark'
+                ? 'border-slate-700 bg-slate-800 text-slate-100'
+                : 'border-slate-200 bg-white text-slate-900'
+        )}>
+            {primaryActionLabel}
+        </span>
     ) : (
         <button
             type="button"
@@ -63,9 +77,9 @@ export default function ProductCard({
         </button>
     );
 
-    return (
+    const cardContent = (
         <article className={clsx(
-            'group rounded-4xl border transition duration-300 hover:-translate-y-1 hover:shadow-2xl overflow-hidden',
+            'group rounded-4xl border transition duration-300 hover:-translate-y-1 hover:shadow-2xl overflow-hidden cursor-pointer',
             theme === 'dark' ? 'border-slate-700 bg-slate-800' : 'border-slate-200 bg-white'
         )}>
             <div className={clsx(
@@ -201,7 +215,7 @@ export default function ProductCard({
 
                 <div className="mt-auto pt-6 border-t flex flex-col gap-3">
                     {primaryAction}
-                    {secondaryActionHref && secondaryActionLabel ? (
+                    {secondaryActionHref && secondaryActionLabel && !product.href ? (
                         <a
                             href={secondaryActionHref}
                             className={clsx(
@@ -213,9 +227,24 @@ export default function ProductCard({
                         >
                             {secondaryActionLabel}
                         </a>
+                    ) : secondaryActionLabel && product.href ? (
+                        <span className={clsx(
+                            'text-sm font-semibold',
+                            theme === 'dark' ? 'text-slate-400' : 'text-slate-500'
+                        )}>
+                            {secondaryActionLabel}
+                        </span>
                     ) : null}
                 </div>
             </div>
         </article>
+    );
+
+    return product.href ? (
+        <Link href={product.href} className="block">
+            {cardContent}
+        </Link>
+    ) : (
+        cardContent
     );
 }
