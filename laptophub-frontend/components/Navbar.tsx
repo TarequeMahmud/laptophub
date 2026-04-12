@@ -2,21 +2,21 @@
 
 import { ShoppingCart, Search, Tag, Wrench, User, Cpu, Monitor, HardDrive, MemoryStick, CircuitBoard, Sun, Moon, Laptop } from 'lucide-react';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
 import { useCartStore } from '@/store/cartStore';
 import { useTheme } from '@/components/ThemeProvider';
 import clsx from 'clsx';
+import { useState, useEffect } from 'react';
 
 export function Navbar() {
     const itemCount = useCartStore((state) => state.getItemCount());
     const { theme, toggleTheme } = useTheme();
-    const [hydrated, setHydrated] = useState(false);
+    const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
-        setHydrated(true);
+        setMounted(true);
     }, []);
 
-    const isCartActive = hydrated && itemCount > 0;
+    const isCartActive = mounted && itemCount > 0;
     const cartLabel = isCartActive ? `${itemCount}` : 'Cart';
 
     return (
@@ -98,21 +98,24 @@ export function Navbar() {
 
                         {/* Cart Icon */}
                         <div className="flex items-center ml-6">
-                            <button
-                                className={clsx(
-                                    'flex items-center space-x-2 px-4 py-2 rounded-lg transition duration-200',
-                                    isCartActive
-                                        ? 'bg-blue-600 hover:bg-blue-700 text-white'
-                                        : theme === 'dark'
-                                            ? 'bg-slate-700 hover:bg-slate-600 text-white'
-                                            : 'bg-slate-200 hover:bg-slate-300 text-slate-900'
-                                )}
-                            >
-                                <ShoppingCart size={20} />
-                                <span className="font-semibold" suppressHydrationWarning>
-                                    {cartLabel}
-                                </span>
-                            </button>
+                            <Link href="/cart">
+                                <button
+                                    suppressHydrationWarning
+                                    className={clsx(
+                                        'flex items-center space-x-2 px-4 py-2 rounded-lg transition duration-200',
+                                        isCartActive
+                                            ? 'bg-blue-600 hover:bg-blue-700 text-white'
+                                            : theme === 'dark'
+                                                ? 'bg-slate-700 hover:bg-slate-600 text-white'
+                                                : 'bg-slate-200 hover:bg-slate-300 text-slate-900'
+                                    )}
+                                >
+                                    <ShoppingCart size={20} />
+                                    <span className="font-semibold" suppressHydrationWarning>
+                                        {cartLabel}
+                                    </span>
+                                </button>
+                            </Link>
                         </div>
                     </div>
                 </div>

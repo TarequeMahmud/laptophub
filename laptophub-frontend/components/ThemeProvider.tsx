@@ -15,40 +15,30 @@ const ThemeContext = createContext<ThemeContextType | undefined>({
 });
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-    const [theme, setTheme] = useState<Theme>('light');
-    const [mounted, setMounted] = useState(false);
-
-    // Load theme from localStorage on mount
-    useEffect(() => {
-        const savedTheme = localStorage.getItem('theme') as Theme;
-        if (savedTheme) {
-            setTheme(savedTheme);
-        } else {
+    const [theme, setTheme] = useState<Theme>(() => {
+        if (typeof window !== 'undefined') {
+            const savedTheme = localStorage.getItem('theme') as Theme;
+            if (savedTheme) {
+                return savedTheme;
+            }
             // Check system preference
             const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-            setTheme(systemTheme);
+            return systemTheme;
         }
-        setMounted(true);
-    }, []);
+        return 'light';
+    });
 
     // Apply theme to document
     useEffect(() => {
-        if (mounted) {
-            const root = document.documentElement;
-            root.classList.remove('light', 'dark');
-            root.classList.add(theme);
-            localStorage.setItem('theme', theme);
-        }
-    }, [theme, mounted]);
+        const root = document.documentElement;
+        root.classList.remove('light', 'dark');
+        root.classList.add(theme);
+        localStorage.setItem('theme', theme);
+    }, [theme]);
 
     const toggleTheme = () => {
         setTheme(prev => prev === 'light' ? 'dark' : 'light');
     };
-
-    // Prevent hydration mismatch by not rendering until mounted
-    if (!mounted) {
-        return <div className="min-h-screen bg-slate-50 text-slate-900">{children}</div>;
-    }
 
     return (
         <ThemeContext.Provider value={{ theme, toggleTheme }}>

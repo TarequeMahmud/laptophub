@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
 import { useTheme } from '@/components/ThemeProvider';
 import { useCartStore } from '@/store/cartStore';
 import { getLaptopById, LAPTOP_PRODUCTS } from '@/lib/laptops';
