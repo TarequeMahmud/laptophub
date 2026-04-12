@@ -136,17 +136,19 @@ export default function CartPage() {
                     >
                         Clear Cart
                     </button>
-                    <button
-                        className={clsx(
-                            'flex-1 px-6 py-3 rounded-xl font-semibold transition duration-200 flex items-center justify-center gap-2',
-                            theme === 'dark'
-                                ? 'bg-blue-600 text-white hover:bg-blue-500'
-                                : 'bg-slate-900 text-white hover:bg-slate-800'
-                        )}
-                    >
-                        Proceed to Checkout
-                        <ArrowRight className="w-4 h-4" />
-                    </button>
+                    <Link href="/checkout" className="block">
+                        <button
+                            className={clsx(
+                                'w-full px-6 py-3 rounded-xl font-semibold transition duration-200 flex items-center justify-center gap-2',
+                                theme === 'dark'
+                                    ? 'bg-blue-600 text-white hover:bg-blue-500'
+                                    : 'bg-slate-900 text-white hover:bg-slate-800'
+                            )}
+                        >
+                            Proceed to Checkout
+                            <ArrowRight className="w-4 h-4" />
+                        </button>
+                    </Link>
                 </div>
             </div>
 
