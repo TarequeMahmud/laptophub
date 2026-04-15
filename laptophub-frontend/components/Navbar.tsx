@@ -1,7 +1,8 @@
 'use client';
 
-import { ShoppingCart, Search, Tag, Wrench, User, Cpu, Monitor, HardDrive, MemoryStick, CircuitBoard, Sun, Moon, Laptop } from 'lucide-react';
+import { ShoppingCart, Search, Tag, Wrench, User, Cpu, Monitor, HardDrive, MemoryStick, CircuitBoard, Sun, Moon, Laptop, Home, LayoutDashboard } from 'lucide-react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useCartStore } from '@/store/cartStore';
 import { useTheme } from '@/components/ThemeProvider';
 import clsx from 'clsx';
@@ -11,6 +12,7 @@ export function Navbar() {
     const itemCount = useCartStore((state) => state.getItemCount());
     const { theme, toggleTheme } = useTheme();
     const [mounted, setMounted] = useState(false);
+    const pathname = usePathname();
 
     useEffect(() => {
         setMounted(true);
@@ -80,21 +82,53 @@ export function Navbar() {
                             </Link>
                         </div>
 
-                        {/* Theme Toggle */}
-                        <button
-                            onClick={toggleTheme}
-                            className={clsx(
-                                "p-2 rounded-lg ml-4 hover:bg-opacity-20 transition-colors duration-200",
-                                theme === 'dark' ? 'hover:bg-slate-700' : 'hover:bg-slate-100'
+                        {/* Navigation Buttons */}
+                        <div className="flex items-center space-x-4 ml-4">
+                            {pathname === '/' && (
+                                <Link
+                                    href="/dashboard"
+                                    className={clsx(
+                                        "flex items-center space-x-2 px-3 py-2 rounded-lg transition-colors duration-200",
+                                        theme === 'dark'
+                                            ? 'bg-slate-800 hover:bg-slate-700 text-slate-300'
+                                            : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+                                    )}
+                                >
+                                    <LayoutDashboard size={18} />
+                                    <span>Dashboard</span>
+                                </Link>
                             )}
-                            aria-label="Toggle theme"
-                        >
-                            {theme === 'dark' ? (
-                                <Sun className="w-5 h-5 text-yellow-400" />
-                            ) : (
-                                <Moon className="w-5 h-5 text-slate-700" />
+                            {pathname === '/dashboard' && (
+                                <Link
+                                    href="/"
+                                    className={clsx(
+                                        "flex items-center space-x-2 px-3 py-2 rounded-lg transition-colors duration-200",
+                                        theme === 'dark'
+                                            ? 'bg-slate-800 hover:bg-slate-700 text-slate-300'
+                                            : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+                                    )}
+                                >
+                                    <Home size={18} />
+                                    <span>Home</span>
+                                </Link>
                             )}
-                        </button>
+
+                            {/* Theme Toggle */}
+                            <button
+                                onClick={toggleTheme}
+                                className={clsx(
+                                    "p-2 rounded-lg hover:bg-opacity-20 transition-colors duration-200",
+                                    theme === 'dark' ? 'hover:bg-slate-700' : 'hover:bg-slate-100'
+                                )}
+                                aria-label="Toggle theme"
+                            >
+                                {theme === 'dark' ? (
+                                    <Sun className="w-5 h-5 text-yellow-400" />
+                                ) : (
+                                    <Moon className="w-5 h-5 text-slate-700" />
+                                )}
+                            </button>
+                        </div>
 
                         {/* Cart Icon */}
                         <div className="flex items-center ml-6">
