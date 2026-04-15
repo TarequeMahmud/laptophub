@@ -71,7 +71,7 @@ export function Navbar() {
                                 <Wrench size={18} />
                                 <span>PC Builder</span>
                             </Link>
-                            <Link href="#" className={clsx(
+                            <Link href="/dashboard" className={clsx(
                                 "flex items-center space-x-1 hover:text-blue-600 transition",
                                 theme === 'dark' ? 'text-slate-300' : 'text-slate-700'
                             )}>
