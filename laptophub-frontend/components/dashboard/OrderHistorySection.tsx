@@ -4,11 +4,14 @@ import { useState, useEffect } from 'react';
 import { Order } from '@/types';
 import { dashboardApi } from '@/lib/api';
 import { Package, Eye } from 'lucide-react';
+import { useTheme } from '@/components/ThemeProvider';
+import clsx from 'clsx';
 
 export default function OrderHistorySection() {
     const [orders, setOrders] = useState<Order[]>([]);
     const [loading, setLoading] = useState(true);
     const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+    const { theme } = useTheme();
 
     useEffect(() => {
         loadOrders();
@@ -109,11 +112,14 @@ export default function OrderHistorySection() {
 
     if (loading) {
         return (
-            <div className="bg-card rounded-lg border p-6">
+            <div className={clsx(
+                "rounded-lg border p-6",
+                theme === 'dark' ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
+            )}>
                 <div className="animate-pulse space-y-4">
-                    <div className="h-4 bg-muted rounded w-1/4"></div>
-                    <div className="h-4 bg-muted rounded w-1/2"></div>
-                    <div className="h-4 bg-muted rounded w-1/3"></div>
+                    <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/4"></div>
+                    <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/2"></div>
+                    <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/3"></div>
                 </div>
             </div>
         );
@@ -121,24 +127,50 @@ export default function OrderHistorySection() {
 
     return (
         <div className="space-y-6">
-            <div className="bg-card rounded-lg border">
-                <div className="p-6 border-b">
-                    <h2 className="text-xl font-semibold">Order History</h2>
+            <div className={clsx(
+                "rounded-lg border",
+                theme === 'dark' ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
+            )}>
+                <div className={clsx(
+                    "p-6 border-b",
+                    theme === 'dark' ? 'border-gray-700' : 'border-gray-200'
+                )}>
+                    <h2 className={clsx(
+                        "text-xl font-semibold",
+                        theme === 'dark' ? 'text-gray-100' : 'text-gray-900'
+                    )}>Order History</h2>
                 </div>
                 <div className="p-6">
                     {orders.length === 0 ? (
                         <div className="text-center py-8">
-                            <Package className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-                            <p className="text-muted-foreground">No orders found</p>
+                            <Package className={clsx(
+                                "w-12 h-12 mx-auto mb-4",
+                                theme === 'dark' ? 'text-gray-600' : 'text-gray-400'
+                            )} />
+                            <p className={clsx(
+                                "",
+                                theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
+                            )}>No orders found</p>
                         </div>
                     ) : (
                         <div className="space-y-4">
                             {orders.map((order) => (
-                                <div key={order.id} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                                <div key={order.id} className={clsx(
+                                    "border rounded-lg p-4 hover:shadow-md transition-shadow",
+                                    theme === 'dark'
+                                        ? 'border-gray-700 hover:shadow-lg bg-gray-800'
+                                        : 'border-gray-200 bg-white'
+                                )}>
                                     <div className="flex items-center justify-between mb-4">
                                         <div>
-                                            <h3 className="font-semibold">Order #{order.id}</h3>
-                                            <p className="text-sm text-muted-foreground">
+                                            <h3 className={clsx(
+                                                "font-semibold",
+                                                theme === 'dark' ? 'text-gray-100' : 'text-gray-900'
+                                            )}>Order #{order.id}</h3>
+                                            <p className={clsx(
+                                                "text-sm",
+                                                theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
+                                            )}>
                                                 {new Date(order.createdAt).toLocaleDateString()}
                                             </p>
                                         </div>
@@ -148,7 +180,12 @@ export default function OrderHistorySection() {
                                             </span>
                                             <button
                                                 onClick={() => setSelectedOrder(order)}
-                                                className="text-primary hover:text-primary/80"
+                                                className={clsx(
+                                                    "",
+                                                    theme === 'dark'
+                                                        ? 'text-blue-400 hover:text-blue-300'
+                                                        : 'text-blue-600 hover:text-blue-800'
+                                                )}
                                             >
                                                 <Eye className="w-4 h-4" />
                                             </button>
@@ -156,15 +193,24 @@ export default function OrderHistorySection() {
                                     </div>
                                     <div className="flex items-center justify-between">
                                         <div>
-                                            <p className="text-sm text-muted-foreground">
+                                            <p className={clsx(
+                                                "text-sm",
+                                                theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
+                                            )}>
                                                 {order.items.length} item{order.items.length !== 1 ? 's' : ''}
                                             </p>
-                                            <p className="text-sm text-muted-foreground">
+                                            <p className={clsx(
+                                                "text-sm",
+                                                theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
+                                            )}>
                                                 {order.shippingAddress.city}, {order.shippingAddress.state}
                                             </p>
                                         </div>
                                         <div className="text-right">
-                                            <p className="font-semibold">${order.total.toFixed(2)}</p>
+                                            <p className={clsx(
+                                                "font-semibold",
+                                                theme === 'dark' ? 'text-gray-100' : 'text-gray-900'
+                                            )}>${order.total.toFixed(2)}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -177,13 +223,27 @@ export default function OrderHistorySection() {
             {/* Order Details Modal */}
             {selectedOrder && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-                    <div className="bg-card rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-                        <div className="p-6 border-b">
+                    <div className={clsx(
+                        "rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto",
+                        theme === 'dark' ? 'bg-gray-800' : 'bg-white'
+                    )}>
+                        <div className={clsx(
+                            "p-6 border-b",
+                            theme === 'dark' ? 'border-gray-700' : 'border-gray-200'
+                        )}>
                             <div className="flex items-center justify-between">
-                                <h3 className="text-xl font-semibold">Order Details</h3>
+                                <h3 className={clsx(
+                                    "text-xl font-semibold",
+                                    theme === 'dark' ? 'text-gray-100' : 'text-gray-900'
+                                )}>Order Details</h3>
                                 <button
                                     onClick={() => setSelectedOrder(null)}
-                                    className="text-muted-foreground hover:text-foreground"
+                                    className={clsx(
+                                        "hover:text-gray-600",
+                                        theme === 'dark'
+                                            ? 'text-gray-600 hover:text-gray-400'
+                                            : 'text-gray-400'
+                                    )}
                                 >
                                     ✕
                                 </button>
@@ -192,20 +252,38 @@ export default function OrderHistorySection() {
                         <div className="p-6 space-y-6">
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <h4 className="font-medium mb-2">Order Information</h4>
-                                    <p className="text-sm text-muted-foreground">Order ID: {selectedOrder.id}</p>
-                                    <p className="text-sm text-muted-foreground">
+                                    <h4 className={clsx(
+                                        "font-medium mb-2",
+                                        theme === 'dark' ? 'text-gray-100' : 'text-gray-900'
+                                    )}>Order Information</h4>
+                                    <p className={clsx(
+                                        "text-sm",
+                                        theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
+                                    )}>Order ID: {selectedOrder.id}</p>
+                                    <p className={clsx(
+                                        "text-sm",
+                                        theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
+                                    )}>
                                         Date: {new Date(selectedOrder.createdAt).toLocaleDateString()}
                                     </p>
-                                    <p className="text-sm text-muted-foreground">
+                                    <p className={clsx(
+                                        "text-sm",
+                                        theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
+                                    )}>
                                         Status: <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(selectedOrder.status)}`}>
                                             {selectedOrder.status.charAt(0).toUpperCase() + selectedOrder.status.slice(1)}
                                         </span>
                                     </p>
                                 </div>
                                 <div>
-                                    <h4 className="font-medium mb-2">Shipping Address</h4>
-                                    <p className="text-sm text-muted-foreground">
+                                    <h4 className={clsx(
+                                        "font-medium mb-2",
+                                        theme === 'dark' ? 'text-gray-100' : 'text-gray-900'
+                                    )}>Shipping Address</h4>
+                                    <p className={clsx(
+                                        "text-sm",
+                                        theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
+                                    )}>
                                         {selectedOrder.shippingAddress.street}<br />
                                         {selectedOrder.shippingAddress.city}, {selectedOrder.shippingAddress.state} {selectedOrder.shippingAddress.zipCode}<br />
                                         {selectedOrder.shippingAddress.country}
@@ -214,29 +292,56 @@ export default function OrderHistorySection() {
                             </div>
 
                             <div>
-                                <h4 className="font-medium mb-4">Items</h4>
+                                <h4 className={clsx(
+                                    "font-medium mb-4",
+                                    theme === 'dark' ? 'text-gray-100' : 'text-gray-900'
+                                )}>Items</h4>
                                 <div className="space-y-4">
                                     {selectedOrder.items.map((item, index) => (
                                         <div key={index} className="flex items-center space-x-4">
-                                            <div className="w-16 h-16 bg-muted rounded flex items-center justify-center">
-                                                <Package className="w-6 h-6 text-muted-foreground" />
+                                            <div className={clsx(
+                                                "w-16 h-16 rounded flex items-center justify-center",
+                                                theme === 'dark' ? 'bg-gray-700' : 'bg-gray-200'
+                                            )}>
+                                                <Package className={clsx(
+                                                    "w-6 h-6",
+                                                    theme === 'dark' ? 'text-gray-600' : 'text-gray-400'
+                                                )} />
                                             </div>
                                             <div className="flex-1">
-                                                <h5 className="font-medium">{item.product.name}</h5>
-                                                <p className="text-sm text-muted-foreground">Quantity: {item.quantity}</p>
+                                                <h5 className={clsx(
+                                                    "font-medium",
+                                                    theme === 'dark' ? 'text-gray-100' : 'text-gray-900'
+                                                )}>{item.product.name}</h5>
+                                                <p className={clsx(
+                                                    "text-sm",
+                                                    theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
+                                                )}>Quantity: {item.quantity}</p>
                                             </div>
                                             <div className="text-right">
-                                                <p className="font-semibold">${item.price.toFixed(2)}</p>
+                                                <p className={clsx(
+                                                    "font-semibold",
+                                                    theme === 'dark' ? 'text-gray-100' : 'text-gray-900'
+                                                )}>${item.price.toFixed(2)}</p>
                                             </div>
                                         </div>
                                     ))}
                                 </div>
                             </div>
 
-                            <div className="border-t pt-4">
+                            <div className={clsx(
+                                "border-t pt-4",
+                                theme === 'dark' ? 'border-gray-700' : 'border-gray-200'
+                            )}>
                                 <div className="flex justify-between items-center">
-                                    <span className="font-medium">Total</span>
-                                    <span className="font-semibold text-lg">${selectedOrder.total.toFixed(2)}</span>
+                                    <span className={clsx(
+                                        "font-medium",
+                                        theme === 'dark' ? 'text-gray-100' : 'text-gray-900'
+                                    )}>Total</span>
+                                    <span className={clsx(
+                                        "font-semibold text-lg",
+                                        theme === 'dark' ? 'text-gray-100' : 'text-gray-900'
+                                    )}>${selectedOrder.total.toFixed(2)}</span>
                                 </div>
                             </div>
                         </div>

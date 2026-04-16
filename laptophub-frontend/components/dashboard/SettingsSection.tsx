@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import { UserSettings } from '@/types';
 import { dashboardApi } from '@/lib/api';
 import { toast } from 'react-hot-toast';
+import { useTheme } from '@/components/ThemeProvider';
+import clsx from 'clsx';
 
 export default function SettingsSection() {
     const [settings, setSettings] = useState<UserSettings | null>(null);
@@ -15,6 +17,7 @@ export default function SettingsSection() {
         confirmPassword: '',
     });
     const [showPasswordChange, setShowPasswordChange] = useState(false);
+    const { theme } = useTheme();
 
     useEffect(() => {
         loadSettings();
@@ -109,11 +112,14 @@ export default function SettingsSection() {
 
     if (loading) {
         return (
-            <div className="bg-card rounded-lg border p-6">
+            <div className={clsx(
+                "rounded-lg border p-6",
+                theme === 'dark' ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
+            )}>
                 <div className="animate-pulse space-y-4">
-                    <div className="h-4 bg-muted rounded w-1/4"></div>
-                    <div className="h-4 bg-muted rounded w-1/2"></div>
-                    <div className="h-4 bg-muted rounded w-1/3"></div>
+                    <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/4"></div>
+                    <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/2"></div>
+                    <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/3"></div>
                 </div>
             </div>
         );
@@ -121,8 +127,14 @@ export default function SettingsSection() {
 
     if (!settings) {
         return (
-            <div className="bg-card rounded-lg border p-6">
-                <p className="text-muted-foreground">Failed to load settings</p>
+            <div className={clsx(
+                "rounded-lg border p-6",
+                theme === 'dark' ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
+            )}>
+                <p className={clsx(
+                    "",
+                    theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
+                )}>Failed to load settings</p>
             </div>
         );
     }
@@ -130,62 +142,106 @@ export default function SettingsSection() {
     return (
         <div className="space-y-6">
             {/* Notifications Settings */}
-            <div className="bg-card rounded-lg border">
-                <div className="p-6 border-b">
-                    <h2 className="text-xl font-semibold">Notifications</h2>
+            <div className={clsx(
+                "rounded-lg border",
+                theme === 'dark' ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
+            )}>
+                <div className={clsx(
+                    "p-6 border-b",
+                    theme === 'dark' ? 'border-gray-700' : 'border-gray-200'
+                )}>
+                    <h2 className={clsx(
+                        "text-xl font-semibold",
+                        theme === 'dark' ? 'text-gray-100' : 'text-gray-900'
+                    )}>Notifications</h2>
                 </div>
                 <div className="p-6 space-y-4">
                     <div className="flex items-center justify-between">
                         <div>
-                            <label className="font-medium">Email Notifications</label>
-                            <p className="text-sm text-muted-foreground">Receive order updates and promotions via email</p>
+                            <label className={clsx(
+                                "font-medium",
+                                theme === 'dark' ? 'text-gray-100' : 'text-gray-900'
+                            )}>Email Notifications</label>
+                            <p className={clsx(
+                                "text-sm",
+                                theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
+                            )}>Receive order updates and promotions via email</p>
                         </div>
                         <input
                             type="checkbox"
                             checked={settings.notifications.email}
                             onChange={(e) => handleSettingsChange('notifications', 'email', e.target.checked)}
-                            className="w-4 h-4"
+                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                         />
                     </div>
                     <div className="flex items-center justify-between">
                         <div>
-                            <label className="font-medium">SMS Notifications</label>
-                            <p className="text-sm text-muted-foreground">Receive order updates via SMS</p>
+                            <label className={clsx(
+                                "font-medium",
+                                theme === 'dark' ? 'text-gray-100' : 'text-gray-900'
+                            )}>SMS Notifications</label>
+                            <p className={clsx(
+                                "text-sm",
+                                theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
+                            )}>Receive order updates via SMS</p>
                         </div>
                         <input
                             type="checkbox"
                             checked={settings.notifications.sms}
                             onChange={(e) => handleSettingsChange('notifications', 'sms', e.target.checked)}
-                            className="w-4 h-4"
+                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                         />
                     </div>
                     <div className="flex items-center justify-between">
                         <div>
-                            <label className="font-medium">Push Notifications</label>
-                            <p className="text-sm text-muted-foreground">Receive push notifications in your browser</p>
+                            <label className={clsx(
+                                "font-medium",
+                                theme === 'dark' ? 'text-gray-100' : 'text-gray-900'
+                            )}>Push Notifications</label>
+                            <p className={clsx(
+                                "text-sm",
+                                theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
+                            )}>Receive push notifications in your browser</p>
                         </div>
                         <input
                             type="checkbox"
                             checked={settings.notifications.push}
                             onChange={(e) => handleSettingsChange('notifications', 'push', e.target.checked)}
-                            className="w-4 h-4"
+                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                         />
                     </div>
                 </div>
             </div>
 
             {/* Privacy Settings */}
-            <div className="bg-card rounded-lg border">
-                <div className="p-6 border-b">
-                    <h2 className="text-xl font-semibold">Privacy</h2>
+            <div className={clsx(
+                "rounded-lg border",
+                theme === 'dark' ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
+            )}>
+                <div className={clsx(
+                    "p-6 border-b",
+                    theme === 'dark' ? 'border-gray-700' : 'border-gray-200'
+                )}>
+                    <h2 className={clsx(
+                        "text-xl font-semibold",
+                        theme === 'dark' ? 'text-gray-100' : 'text-gray-900'
+                    )}>Privacy</h2>
                 </div>
                 <div className="p-6 space-y-4">
                     <div className="space-y-2">
-                        <label className="font-medium">Profile Visibility</label>
+                        <label className={clsx(
+                            "font-medium",
+                            theme === 'dark' ? 'text-gray-100' : 'text-gray-900'
+                        )}>Profile Visibility</label>
                         <select
                             value={settings.privacy.profileVisibility}
                             onChange={(e) => handleSettingsChange('privacy', 'profileVisibility', e.target.value)}
-                            className="w-full px-3 py-2 border border-input rounded-md bg-background"
+                            className={clsx(
+                                "w-full px-3 py-2 border rounded-md",
+                                theme === 'dark'
+                                    ? 'bg-gray-700 border-gray-600 text-gray-100'
+                                    : 'bg-white border-gray-300 text-gray-900'
+                            )}
                         >
                             <option value="public">Public</option>
                             <option value="private">Private</option>
@@ -193,32 +249,55 @@ export default function SettingsSection() {
                     </div>
                     <div className="flex items-center justify-between">
                         <div>
-                            <label className="font-medium">Data Sharing</label>
-                            <p className="text-sm text-muted-foreground">Allow sharing of anonymized data for analytics</p>
+                            <label className={clsx(
+                                "font-medium",
+                                theme === 'dark' ? 'text-gray-100' : 'text-gray-900'
+                            )}>Data Sharing</label>
+                            <p className={clsx(
+                                "text-sm",
+                                theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
+                            )}>Allow sharing of anonymized data for analytics</p>
                         </div>
                         <input
                             type="checkbox"
                             checked={settings.privacy.dataSharing}
                             onChange={(e) => handleSettingsChange('privacy', 'dataSharing', e.target.checked)}
-                            className="w-4 h-4"
+                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                         />
                     </div>
                 </div>
             </div>
 
             {/* Preferences */}
-            <div className="bg-card rounded-lg border">
-                <div className="p-6 border-b">
-                    <h2 className="text-xl font-semibold">Preferences</h2>
+            <div className={clsx(
+                "rounded-lg border",
+                theme === 'dark' ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
+            )}>
+                <div className={clsx(
+                    "p-6 border-b",
+                    theme === 'dark' ? 'border-gray-700' : 'border-gray-200'
+                )}>
+                    <h2 className={clsx(
+                        "text-xl font-semibold",
+                        theme === 'dark' ? 'text-gray-100' : 'text-gray-900'
+                    )}>Preferences</h2>
                 </div>
                 <div className="p-6 space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div className="space-y-2">
-                            <label className="font-medium">Theme</label>
+                            <label className={clsx(
+                                "font-medium",
+                                theme === 'dark' ? 'text-gray-100' : 'text-gray-900'
+                            )}>Theme</label>
                             <select
                                 value={settings.preferences.theme}
                                 onChange={(e) => handleSettingsChange('preferences', 'theme', e.target.value)}
-                                className="w-full px-3 py-2 border border-input rounded-md bg-background"
+                                className={clsx(
+                                    "w-full px-3 py-2 border rounded-md",
+                                    theme === 'dark'
+                                        ? 'bg-gray-700 border-gray-600 text-gray-100'
+                                        : 'bg-white border-gray-300 text-gray-900'
+                                )}
                             >
                                 <option value="light">Light</option>
                                 <option value="dark">Dark</option>
@@ -226,11 +305,19 @@ export default function SettingsSection() {
                             </select>
                         </div>
                         <div className="space-y-2">
-                            <label className="font-medium">Language</label>
+                            <label className={clsx(
+                                "font-medium",
+                                theme === 'dark' ? 'text-gray-100' : 'text-gray-900'
+                            )}>Language</label>
                             <select
                                 value={settings.preferences.language}
                                 onChange={(e) => handleSettingsChange('preferences', 'language', e.target.value)}
-                                className="w-full px-3 py-2 border border-input rounded-md bg-background"
+                                className={clsx(
+                                    "w-full px-3 py-2 border rounded-md",
+                                    theme === 'dark'
+                                        ? 'bg-gray-700 border-gray-600 text-gray-100'
+                                        : 'bg-white border-gray-300 text-gray-900'
+                                )}
                             >
                                 <option value="en">English</option>
                                 <option value="es">Spanish</option>
@@ -238,11 +325,19 @@ export default function SettingsSection() {
                             </select>
                         </div>
                         <div className="space-y-2">
-                            <label className="font-medium">Currency</label>
+                            <label className={clsx(
+                                "font-medium",
+                                theme === 'dark' ? 'text-gray-100' : 'text-gray-900'
+                            )}>Currency</label>
                             <select
                                 value={settings.preferences.currency}
                                 onChange={(e) => handleSettingsChange('preferences', 'currency', e.target.value)}
-                                className="w-full px-3 py-2 border border-input rounded-md bg-background"
+                                className={clsx(
+                                    "w-full px-3 py-2 border rounded-md",
+                                    theme === 'dark'
+                                        ? 'bg-gray-700 border-gray-600 text-gray-100'
+                                        : 'bg-white border-gray-300 text-gray-900'
+                                )}
                             >
                                 <option value="USD">USD</option>
                                 <option value="EUR">EUR</option>
@@ -254,52 +349,85 @@ export default function SettingsSection() {
             </div>
 
             {/* Password Change */}
-            <div className="bg-card rounded-lg border">
-                <div className="p-6 border-b">
-                    <h2 className="text-xl font-semibold">Security</h2>
+            <div className={clsx(
+                "rounded-lg border",
+                theme === 'dark' ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
+            )}>
+                <div className={clsx(
+                    "p-6 border-b",
+                    theme === 'dark' ? 'border-gray-700' : 'border-gray-200'
+                )}>
+                    <h2 className={clsx(
+                        "text-xl font-semibold",
+                        theme === 'dark' ? 'text-gray-100' : 'text-gray-900'
+                    )}>Security</h2>
                 </div>
                 <div className="p-6 space-y-4">
                     {!showPasswordChange ? (
                         <button
                             onClick={() => setShowPasswordChange(true)}
-                            className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90"
+                            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
                         >
                             Change Password
                         </button>
                     ) : (
                         <div className="space-y-4">
                             <div className="space-y-2">
-                                <label className="block text-sm font-medium">Current Password</label>
+                                <label className={clsx(
+                                    "block text-sm font-medium",
+                                    theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
+                                )}>Current Password</label>
                                 <input
                                     type="password"
                                     value={changePasswordData.currentPassword}
                                     onChange={(e) => setChangePasswordData(prev => ({ ...prev, currentPassword: e.target.value }))}
-                                    className="w-full px-3 py-2 border border-input rounded-md bg-background"
+                                    className={clsx(
+                                        "w-full px-3 py-2 border rounded-md",
+                                        theme === 'dark'
+                                            ? 'bg-gray-700 border-gray-600 text-gray-100'
+                                            : 'bg-white border-gray-300 text-gray-900'
+                                    )}
                                 />
                             </div>
                             <div className="space-y-2">
-                                <label className="block text-sm font-medium">New Password</label>
+                                <label className={clsx(
+                                    "block text-sm font-medium",
+                                    theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
+                                )}>New Password</label>
                                 <input
                                     type="password"
                                     value={changePasswordData.newPassword}
                                     onChange={(e) => setChangePasswordData(prev => ({ ...prev, newPassword: e.target.value }))}
-                                    className="w-full px-3 py-2 border border-input rounded-md bg-background"
+                                    className={clsx(
+                                        "w-full px-3 py-2 border rounded-md",
+                                        theme === 'dark'
+                                            ? 'bg-gray-700 border-gray-600 text-gray-100'
+                                            : 'bg-white border-gray-300 text-gray-900'
+                                    )}
                                 />
                             </div>
                             <div className="space-y-2">
-                                <label className="block text-sm font-medium">Confirm New Password</label>
+                                <label className={clsx(
+                                    "block text-sm font-medium",
+                                    theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
+                                )}>Confirm New Password</label>
                                 <input
                                     type="password"
                                     value={changePasswordData.confirmPassword}
                                     onChange={(e) => setChangePasswordData(prev => ({ ...prev, confirmPassword: e.target.value }))}
-                                    className="w-full px-3 py-2 border border-input rounded-md bg-background"
+                                    className={clsx(
+                                        "w-full px-3 py-2 border rounded-md",
+                                        theme === 'dark'
+                                            ? 'bg-gray-700 border-gray-600 text-gray-100'
+                                            : 'bg-white border-gray-300 text-gray-900'
+                                    )}
                                 />
                             </div>
                             <div className="flex space-x-4">
                                 <button
                                     onClick={handleChangePassword}
                                     disabled={saving}
-                                    className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 disabled:opacity-50"
+                                    className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 disabled:opacity-50"
                                 >
                                     {saving ? 'Changing...' : 'Change Password'}
                                 </button>
@@ -312,7 +440,12 @@ export default function SettingsSection() {
                                             confirmPassword: '',
                                         });
                                     }}
-                                    className="px-4 py-2 border border-input rounded-md hover:bg-accent"
+                                    className={clsx(
+                                        "px-4 py-2 border rounded-md",
+                                        theme === 'dark'
+                                            ? 'border-gray-600 hover:bg-gray-700 text-gray-300'
+                                            : 'border-gray-300 hover:bg-gray-50 text-gray-700'
+                                    )}
                                 >
                                     Cancel
                                 </button>
@@ -327,7 +460,7 @@ export default function SettingsSection() {
                 <button
                     onClick={handleSaveSettings}
                     disabled={saving}
-                    className="px-6 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 disabled:opacity-50"
+                    className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 disabled:opacity-50"
                 >
                     {saving ? 'Saving...' : 'Save Settings'}
                 </button>
